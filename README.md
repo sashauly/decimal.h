@@ -1,72 +1,23 @@
-# s21_decimal 
+# decimal.h
+### Implementation of s21_decimal.h library in the C programming language. This library add the ability to work with the "decimal" type, which is not in the language standard. It's used for financial calculations, for example.
 
-> При старте работы над проектом просим вас постараться хронометрировать время работы над проектом.
-> По завершении работы над проектом просим вас ответить на два вопроса [в этом опросе](https://forms.gle/PFAxFfM4GJuQU1x59)
+   This is an educational project, so it's no longer supported!
+> 13.12.2022
 
-Implementation of your own s21_decimal.h library.
+## Important notes
 
-The russian version of the task can be found in the repository.
-
-
-## Contents
-
-1. [Chapter I](#chapter-i) \
-   1.1. [Introduction](#introduction)
-2. [Chapter II](#chapter-ii) \
-   2.1. [Information](#information)
-3. [Chapter III](#chapter-iii) \
-   3.1. [Part 1](#part-1-implementation-of-the-decimalh-library-functions)
-
-
-## Chapter I
-
-![s21_decimal](misc/images/s21_decimal.png)
-
-Planet Earth, 1990s. 
-
-The world economy is growing exponentially, the stock exchange increases many times year after year, more and more companies go public and their shares start to be quoted. The number of users, the number of transactions, price, commission, interest, calculation of financial technical indicators... It's hard to overestimate the accuracy of all this data, and there are serious problems with the current obsolete data types used in the financial sector.
-
-Due to a calculation error in the usual IEEE 754 (float) millions of dollars are lost every year, which simply absorbed from the system, disappearing forever. 
-
-Together with the FIX (Financial Information eXchange) protocol, which is being developed for data processing in the transfer between the broker and the exchange, one more tool is needed for data transfer and storage. \
-At the follow-up meeting:
-
-*-- So, gentlemen, please note that our group of specialists, who have already proven themselves in many successful projects, has been tasked by the government to develop a completely new type of data, code-named Decimal. Its task is to allow significantly minimise error for several decades, and in some cases remove it completely in the world's financial transactions. It is required to describe all the necessary logical and arithmetic operations, which would allow to make the necessary calculations quickly and conveniently.*
-
-*- Wow, that's quite an order we got, and from such a customer! We have to keep this client - it promises us big contracts in the future if we do well!*
-
-*-- Yes, you're right, that’s why we need to figure out what functions we need to implement... Any suggestions?*
-
-*-- Sum and difference....*
-
-*-- Multiplication and division...*
-
-*-- Agreed, but we need more!*
-
-*- Taking the remainder, comparison and conversion operations!*
-
-*-- Mathematical rounding in all directions!*
-
-*-- Yes, I think that’s enough, let’s get to work! We've got no more than a couple of days, don't let us down!*
-
-## Introduction
-
-In this project you will implement the s21_decimal.h library in the C programming language. This library should add the ability to work with the "decimal" type, which is not in the language standard. Nevertheless, this type is critically important. For financial calculations, for example, where errors of calculations characteristic of types with floating point are unacceptable. As part of the project you will work with the tasks of processing financial information, dive into the issues of internal representation of different types of data, and solidify knowledge of structured programming.
-
-
-## Chapter II
+ - The library developed in C language of C11 standard using gcc compiler as a static library with the header file s21_decimal.h(see `s21_decimal.a` goal in Makefile)
+ - The library's code, including headers, makefile and library itself located in the src folder
+ - Written code follows the Google style. Legacy and outdated functions are not used according to POSIX.1-2017 standard(see `clang` goal in Makefile).
+ - Integration tests covered all of the library's functions by unit-tests using the `check.h` library. Unit-tests checks the results of implementation by comparing them with the implementation of the standard decimal.h library(see `test` goal in Makefile). 
+ - Unit tests coverage checked using gcov. It provides a gcov report in the form of an html page(see `gcov_report` goal in Makefile).
+ - The programs developed according to the principles of structured programming, duplication in the code is avoided
+- Trailing zeros preserved as deleted (except for the `s21_truncate` function)
+- The defined type must support numbers from -79,228,162,514,264,337,593,543,950,335 to +79,228,162,514,264,337,593,543,950,335.
 
 ## Information
 
 The Decimal value type represents decimal numbers ranging from positive 79,228,162,514,264,337,593,543,950,335 to negative 79,228,162,514,264,337,593,543,950,335. The default value of a Decimal is 0. The Decimal value type is appropriate for financial calculations that require large numbers of significant integral and fractional digits and no round-off errors. The Decimal type does not eliminate the need for rounding. Rather, it minimizes errors due to rounding.
-
-When the result of the division and multiplication is passed to the Round method, the result suffers no loss of precision.
-
-A decimal number is a floating-point value that consists of a sign, a numeric value where each digit in the value ranges from 0 to 9, and a scaling factor that indicates the position of a floating decimal point that separates the integral and fractional parts of the numeric value.
-
-The binary representation of a Decimal value consists of a 1-bit sign, a 96-bit integer number, and a scaling factor used to divide the 96-bit integer and specify what portion of it is a decimal fraction. The scaling factor is implicitly the number 10, raised to an exponent ranging from 0 to 28. Therefore, the binary representation of a Decimal value the form, ((-2^96 to 2^96) / 10^(0 to 28)), where -(2^96-1) is equal to MinValue, and 2^96-1 is equal to MaxValue.
-
-The scaling factor also can preserve any trailing zeros in a Decimal number. Trailing zeros do not affect the value of a Decimal number in arithmetic or comparison operations. 
 
 ### Binary representation
 
@@ -92,6 +43,8 @@ typedef struct
     int bits[4];
 } s21_decimal;
 ```
+
+## Everything that was implemented in the decimal.h library is located down below:
 
 ### Arithmetic Operators
 
@@ -165,26 +118,3 @@ Return value - code error:
 Return value - code error:
 - 0 - OK
 - 1 - calculation error
-
-## Chapter III
-
-## Part 1. Implementation of the decimal.h library functions
-
-The functions of the decimal.h library described [above](#information) must be implemented:
-- The library must be developed in C language of C11 standard using gcc compiler
-- The library code must be located in the src folder on the develop branch   
-- Do not use outdated and legacy language constructions and library functions. Pay attention to the legacy and obsolete marks in the official documentation on the language and the libraries used. Use the POSIX.1-2017 standard.
-- When writing code it is necessary to follow the Google style
-- Make it as a static library (with the s21_decimal.h header file)
-- The library must be developed according to the principles of structured programming;
-- Use prefix s21_ before each function
-- Prepare full coverage of library functions code with unit-tests using the Check library
-- Unit tests must cover at least 80% of each function (checked using gcov)   
-- Provide a Makefile for building the library and tests (with targets all, clean, test, s21_decimal.a, gcov_report)  
-- The gcov_report target should generate a gcov report in the form of an html page. Unit tests must be run with gcov flags to do this
-- When implementing decimal, stick to [the binary representation](#binary-representation) with the integer `bits` array as specified in the [example above](#example). Observe the position of the digits of a number in the `bits` array
-- It is forbidden to use the __int128 type
-- Trailing zeros can be as preserved as deleted (except for the `s21_truncate` function)
-- The defined type must support numbers from -79,228,162,514,264,337,593,543,950,335 to +79,228,162,514,264,337,593,543,950,335.
-
-💡[ Tap here](https://forms.yandex.ru/u/6357d97684227c2f9d626b7c/) **to leave your feedback on the project**. Pedago Team really tries to make your educational experience better.
